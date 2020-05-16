@@ -1,23 +1,14 @@
-import WhatsappBot from './server/controllers/WhatsAppBot';
-
-
-const getBody = query => {
-  const URLSearchParams = new URLSearchParams(query);
-  const body = URLSearchParams.get('Body');
-return body;
-}; 
-
-export const readgoogle = async (event, context) => {
-  const body = getBody(event.body);
-
-  const result = await WhatsappBot.googleSearch(body);
-
+export const hello = async (event, context) => {
   return {
     statusCode: 200,
-    headers: {
-      'Content-Type': 'text/xml',
-    },
-    body: result,
-  }; 
-  
+    body: JSON.stringify({
+      message: `Go Serverless v1.0! ${(await message({ time: 1, copy: 'Your function executed successfully!'}))}`,
+    }),
+  };
 };
+
+const message = ({ time, ...rest }) => new Promise((resolve, reject) =>
+  setTimeout(() => {
+    resolve(`${rest.copy} (with a delay)`);
+  }, time * 1000)
+);
